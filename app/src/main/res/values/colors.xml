@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_color">#141417</color>
+    <color name="foreground_color">#CCCCCC</color>
+
+    <!-- UI -->
+    <color name="secondary_bg">#1f1f21</color>
+    <color name="tertiary_bg">#322f1b</color>
+    <color name="accent">#abd68e</color>
+    <color name="accent_secondary">#cdc58b</color>
+    <color name="star_color">#cdc58b</color>
+    <color name="star_bg">#322f1b</color>
+    <color name="danger">#ff7e80</color>
+    <color name="input_color">#343</color>
+</resources>

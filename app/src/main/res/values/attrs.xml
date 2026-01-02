@@ -1,0 +1,9 @@
+<resources>
+    <attr name="bgColor" format="color" />
+    <attr name="foregroundColor" format="color" />
+
+    <declare-styleable name="ListItem">
+        <attr name="text" format="string" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+</resources>

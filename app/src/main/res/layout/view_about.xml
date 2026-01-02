@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/bg_color">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="32dp">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/mako"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:text="@string/app_name"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/foreground_color" />
+
+        <TextView
+            android:text="@string/app_description"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"
+            android:textColor="@color/foreground_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:orientation="vertical">
+
+            <com.rama.tambora.ListItemActivity
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ads_click"
+                app:text="@string/icon_ads_desc" />
+
+            <com.rama.tambora.ListItemActivity
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/block"
+                app:text="@string/icon_block_desc" />
+
+            <com.rama.tambora.ListItemActivity
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/location_on"
+                app:text="@string/icon_location_desc" />
+
+            <com.rama.tambora.ListItemActivity
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/signal_wifi_off"
+                app:text="@string/icon_offline_desc" />
+
+            <com.rama.tambora.ListItemActivity
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/shield"
+                app:text="@string/icon_license_desc" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/repo_button"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_button_rounded"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/computer"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:text="@string/app_repo"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bg_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/creator_button"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_button_rounded"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/person"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:text="@string/author_app_creator"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bg_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/close_button"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_button_danger"
+            android:gravity="center">
+
+            <TextView
+                android:text="@string/close"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bg_color" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,3 @@
+Tambora is a minimal, privacy-first Android launcher designed for focus, speed, and simplicity.
+
+Built entirely in native Kotlin, Tambora runs fully on-device, avoids tracking, and keeps distractions to a minimum by emphasizing clarity and intentional interaction.
