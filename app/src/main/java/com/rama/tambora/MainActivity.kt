@@ -19,10 +19,10 @@ class MainActivity : Activity() {
         val root = findViewById<View>(R.id.root)
         root.setOnApplyWindowInsetsListener { view, insets ->
             view.setPadding(
-                insets.systemWindowInsetLeft + dp(32),
-                insets.systemWindowInsetTop + dp(32),
-                insets.systemWindowInsetRight + dp(32),
-                insets.systemWindowInsetBottom + dp(32)
+                insets.systemWindowInsetLeft + dp(4),
+                insets.systemWindowInsetTop + dp(4),
+                insets.systemWindowInsetRight + dp(4),
+                insets.systemWindowInsetBottom + dp(4)
             )
             insets
         }

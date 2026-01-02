@@ -1,6 +1,6 @@
 <resources>
     <!-- Base theme -->
-    <style name="Theme.Tambora" parent="android:Theme.DeviceDefault.NoActionBar">
+    <style name="Theme.Tambora" parent="android:Theme.DeviceDefault">
         <item name="bgColor">@color/bg_color</item>
         <item name="foregroundColor">@color/foreground_color</item>
 
