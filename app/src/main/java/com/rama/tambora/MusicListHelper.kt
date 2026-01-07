@@ -73,19 +73,25 @@ class MusicListHelper(
             MediaStore.Audio.Media.DISPLAY_NAME,
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.SIZE,
-            MediaStore.Audio.Media.MIME_TYPE
+            MediaStore.Audio.Media.MIME_TYPE,
+            MediaStore.Audio.Media.DATA
         )
 
-        val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0"
+        val musicPath = android.os.Environment.getExternalStoragePublicDirectory(
+            android.os.Environment.DIRECTORY_MUSIC
+        ).absolutePath
+
+        val selection =
+            "${MediaStore.Audio.Media.IS_MUSIC} != 0 AND ${MediaStore.Audio.Media.DATA} LIKE ?"
+        val selectionArgs = arrayOf("$musicPath/%")
 
         context.contentResolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
             projection,
             selection,
-            null,
+            selectionArgs,
             "${MediaStore.Audio.Media.DISPLAY_NAME} ASC"
         )?.use { cursor ->
-
             val idCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
             val nameCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
             val durationCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
@@ -116,6 +122,7 @@ class MusicListHelper(
             }
         }
     }
+
 
     // --------------------------------------------------------------------
     // Filename parser
