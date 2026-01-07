@@ -5,13 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import java.util.Locale
 
 // ------------------------------------------------------------------------
 // Models
@@ -20,7 +23,7 @@ import android.widget.Toast
 data class ParsedSongName(
     val artists: List<String>,
     val title: String,
-    val extra: String?,
+    val countries: List<String>,
     val languages: List<String>
 )
 
@@ -28,7 +31,7 @@ data class Song(
     val id: Long,
     val artists: List<String>,
     val title: String,
-    val extra: String?,
+    val countries: List<String>,
     val languages: List<String>,
     val durationMs: Long,
     val sizeBytes: Long,
@@ -84,23 +87,14 @@ class MusicListHelper(
         )?.use { cursor ->
 
             val idCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-            val nameCol = cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.DISPLAY_NAME
-            )
-            val durationCol = cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.DURATION
-            )
-            val sizeCol = cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.SIZE
-            )
-            val mimeCol = cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.MIME_TYPE
-            )
+            val nameCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
+            val durationCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
+            val sizeCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE)
+            val mimeCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE)
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idCol)
                 val rawName = cursor.getString(nameCol)
-
                 val parsed = parseSongName(rawName)
 
                 songs.add(
@@ -108,7 +102,7 @@ class MusicListHelper(
                         id = id,
                         artists = parsed.artists,
                         title = parsed.title,
-                        extra = parsed.extra,
+                        countries = parsed.countries,
                         languages = parsed.languages,
                         durationMs = cursor.getLong(durationCol),
                         sizeBytes = cursor.getLong(sizeCol),
@@ -129,36 +123,42 @@ class MusicListHelper(
 
     private fun parseSongName(rawName: String): ParsedSongName {
         val name = rawName.substringBeforeLast('.')
-
         val parts = name.split(" - ").map { it.trim() }
 
         val artistPart = parts.getOrNull(0).orEmpty()
         val titlePart = parts.getOrNull(1).orEmpty()
-        val langPart = parts.getOrNull(2)
+        val countryPart = parts.getOrNull(2)
+        val languagePart = parts.getOrNull(3)
 
-        val artists = artistPart
-            .split(",")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-
-        val titleRegex = Regex("""^(.*?)\s*(?:\((.*?)\))?$""")
-        val match = titleRegex.find(titlePart)
-
-        val title = match?.groupValues?.get(1)?.trim().orEmpty()
-        val extra = match?.groupValues?.getOrNull(2)?.trim()
-
-        val languages = langPart
-            ?.split(",")
-            ?.map { it.trim() }
-            ?.filter { it.isNotEmpty() }
-            ?: emptyList()
+        val artists = artistPart.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+        val countries =
+            countryPart?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+        val languages =
+            languagePart?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
 
         return ParsedSongName(
             artists = artists,
-            title = title,
-            extra = extra,
+            title = titlePart,
+            countries = countries,
             languages = languages
         )
+    }
+
+    // --------------------------------------------------------------------
+    // ISO display helpers
+    // --------------------------------------------------------------------
+
+    private fun countryDisplayName(code: String): String {
+        val upper = code.uppercase()
+
+        return Locale("", upper).displayCountry.takeIf { it.isNotBlank() }
+            ?: upper
+    }
+
+    private fun languageDisplayName(code: String): String {
+        val lower = code.lowercase()
+        return Locale(lower).displayLanguage.replaceFirstChar { it.uppercase() }
+            .takeIf { it.isNotBlank() } ?: code.uppercase()
     }
 
     // --------------------------------------------------------------------
@@ -171,39 +171,48 @@ class MusicListHelper(
             R.layout.music_list_item,
             songs
         ) {
-
-            override fun getView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
-
-                val view = convertView
-                    ?: View.inflate(context, R.layout.music_list_item, null)
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = convertView ?: LayoutInflater.from(context)
+                    .inflate(R.layout.music_list_item, parent, false)
 
                 val song = getItem(position) ?: return view
 
                 val titleView = view.findViewById<TextView>(R.id.title)
                 val artistView = view.findViewById<TextView>(R.id.artist)
-                val langView = view.findViewById<TextView>(R.id.lang)
+                val tagsContainer = view.findViewById<LinearLayout>(R.id.tags_container)
                 val timeView = view.findViewById<TextView>(R.id.time)
                 val formatView = view.findViewById<TextView>(R.id.format)
                 val sizeView = view.findViewById<TextView>(R.id.size)
                 val actions = view.findViewById<View>(R.id.actions_button)
 
-                titleView.text = song.title +
-                        (song.extra?.let { " ($it)" } ?: "")
-
+                titleView.text = song.title
                 artistView.text = song.artists.joinToString(", ")
-                langView.text = song.languages.joinToString(", ")
+
+                // Clear old tags for recycled views
+                tagsContainer.removeAllViews()
+
+                // Country tags (green)
+                song.countries.forEach { code ->
+                    val tag = LayoutInflater.from(context)
+                        .inflate(R.layout.music_tag, tagsContainer, false) as TextView
+                    tag.text = countryDisplayName(code)
+                    tag.setBackgroundColor(0xFF92ECC2.toInt())
+                    tagsContainer.addView(tag)
+                }
+
+                // Language tags (blue/default)
+                song.languages.forEach { code ->
+                    val tag = LayoutInflater.from(context)
+                        .inflate(R.layout.music_tag, tagsContainer, false) as TextView
+                    tag.text = languageDisplayName(code)
+                    tagsContainer.addView(tag)
+                }
 
                 timeView.text = formatDuration(song.durationMs)
                 formatView.text = song.mimeType?.substringAfter("/") ?: "audio"
                 sizeView.text = formatSize(song.sizeBytes)
 
-                titleView.setOnClickListener {
-                    playSong(song)
-                }
+                titleView.setOnClickListener { playSong(song) }
 
                 titleView.setOnLongClickListener {
                     openActionsFor = song.uri
@@ -236,11 +245,7 @@ class MusicListHelper(
         try {
             context.startActivity(intent)
         } catch (_: Exception) {
-            Toast.makeText(
-                context,
-                "Unable to play song",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(context, "Unable to play song", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -250,17 +255,12 @@ class MusicListHelper(
 
     private fun setupScrollListener() {
         listView.setOnScrollListener(object : AbsListView.OnScrollListener {
-
-            override fun onScrollStateChanged(
-                view: AbsListView?,
-                scrollState: Int
-            ) {
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
                 if (scrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE &&
                     openActionsFor != null
                 ) {
                     openActionsFor = null
-                    (listView.adapter as ArrayAdapter<*>)
-                        .notifyDataSetChanged()
+                    (listView.adapter as ArrayAdapter<*>).notifyDataSetChanged()
                 }
             }
 
@@ -279,9 +279,7 @@ class MusicListHelper(
 
     private fun formatDuration(ms: Long): String {
         val totalSeconds = ms / 1000
-        val minutes = totalSeconds / 60
-        val seconds = totalSeconds % 60
-        return "%d:%02d".format(minutes, seconds)
+        return "%d:%02d".format(totalSeconds / 60, totalSeconds % 60)
     }
 
     private fun formatSize(bytes: Long): String {

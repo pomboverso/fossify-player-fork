@@ -21,8 +21,8 @@
             android:background="@android:color/transparent"
             android:orientation="vertical"
             android:layout_weight="1"
-            android:paddingEnd="8dp"
-            android:layout_width="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
@@ -37,32 +37,20 @@
             <TextView
                 android:background="@android:color/transparent"
                 android:id="@+id/artist"
-                android:text="Natalia Lafourcade"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:textSize="12sp"
                 android:textColor="@color/foreground_color" />
 
-            <FrameLayout
+            <LinearLayout
+                android:id="@+id/tags_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:background="#90b9d9"
-                android:layout_marginEnd="8dp">
-
-                <TextView
-                    android:background="@android:color/transparent"
-                    android:id="@+id/lang"
-                    android:text="Español"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/bg_color" />
-            </FrameLayout>
+                android:orientation="horizontal"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_vertical" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +64,7 @@
             <TextView
                 android:background="@android:color/transparent"
                 android:id="@+id/time"
-                android:text="4:23"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -85,7 +73,7 @@
             <TextView
                 android:background="@android:color/transparent"
                 android:id="@+id/format"
-                android:text="mp3"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -94,7 +82,7 @@
             <TextView
                 android:background="@android:color/transparent"
                 android:id="@+id/size"
-                android:text="4mb"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
