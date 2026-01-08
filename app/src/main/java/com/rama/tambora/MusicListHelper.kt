@@ -2,7 +2,6 @@ package com.rama.tambora
 
 import android.content.ContentUris
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -13,8 +12,8 @@ import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import java.util.Locale
+import android.media.MediaPlayer
 
 // ------------------------------------------------------------------------
 // Models
@@ -42,6 +41,8 @@ data class Song(
 // ------------------------------------------------------------------------
 // Helper
 // ------------------------------------------------------------------------
+
+private var mediaPlayer: MediaPlayer? = null
 
 class MusicListHelper(
     private val context: Context,
@@ -97,8 +98,15 @@ class MusicListHelper(
             val durationCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
             val sizeCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE)
             val mimeCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE)
+            val dataCol = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
             while (cursor.moveToNext()) {
+                val path = cursor.getString(dataCol)
+                val parentFolder = path.substringBeforeLast('/')
+
+                // Only include files directly inside Music/
+                if (parentFolder != musicPath) continue
+
                 val id = cursor.getLong(idCol)
                 val rawName = cursor.getString(nameCol)
                 val parsed = parseSongName(rawName)
@@ -122,7 +130,6 @@ class MusicListHelper(
             }
         }
     }
-
 
     // --------------------------------------------------------------------
     // Filename parser
@@ -244,15 +251,11 @@ class MusicListHelper(
     // --------------------------------------------------------------------
 
     private fun playSong(song: Song) {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(Uri.parse(song.uri), "audio/*")
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-
-        try {
-            context.startActivity(intent)
-        } catch (_: Exception) {
-            Toast.makeText(context, "Unable to play song", Toast.LENGTH_SHORT).show()
+        mediaPlayer?.release()  // release previous
+        mediaPlayer = MediaPlayer().apply {
+            setDataSource(context, Uri.parse(song.uri))
+            prepare()
+            start()
         }
     }
 
