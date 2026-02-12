@@ -14,7 +14,6 @@ import org.fossify.musicplayer.R
 import org.fossify.musicplayer.databinding.ItemArtistBinding
 import org.fossify.musicplayer.extensions.audioHelper
 import org.fossify.musicplayer.extensions.config
-import org.fossify.musicplayer.extensions.getArtistCoverArt
 import org.fossify.musicplayer.inlines.indexOfFirstOrNull
 import org.fossify.musicplayer.models.Artist
 import org.fossify.musicplayer.models.Track
@@ -91,10 +90,6 @@ class ArtistsAdapter(activity: BaseSimpleActivity, items: ArrayList<Artist>, rec
             @SuppressLint("SetTextI18n")
             artistAlbumsTracks.text = "$albums, $tracks"
             artistAlbumsTracks.setTextColor(textColor)
-
-            context.getArtistCoverArt(artist) { coverArt ->
-                loadImage(artistImage, coverArt, placeholder)
-            }
         }
     }
 

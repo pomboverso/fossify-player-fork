@@ -13,7 +13,6 @@ import org.fossify.musicplayer.R
 import org.fossify.musicplayer.databinding.ItemGenreBinding
 import org.fossify.musicplayer.extensions.audioHelper
 import org.fossify.musicplayer.extensions.config
-import org.fossify.musicplayer.extensions.getGenreCoverArt
 import org.fossify.musicplayer.inlines.indexOfFirstOrNull
 import org.fossify.musicplayer.models.Genre
 import org.fossify.musicplayer.models.Track
@@ -92,10 +91,6 @@ class GenresAdapter(activity: BaseSimpleActivity, items: ArrayList<Genre>, recyc
             val tracks = resources.getQuantityString(R.plurals.tracks_plural, genre.trackCnt, genre.trackCnt)
             genreTracks.text = tracks
             genreTracks.setTextColor(textColor)
-
-            activity.getGenreCoverArt(genre) { coverArt ->
-                loadImage(genreImage, coverArt, placeholderBig)
-            }
         }
     }
 

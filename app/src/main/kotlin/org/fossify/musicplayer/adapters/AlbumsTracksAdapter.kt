@@ -18,8 +18,6 @@ import org.fossify.musicplayer.databinding.ItemSectionBinding
 import org.fossify.musicplayer.databinding.ItemTrackBinding
 import org.fossify.musicplayer.dialogs.EditDialog
 import org.fossify.musicplayer.extensions.audioHelper
-import org.fossify.musicplayer.extensions.getAlbumCoverArt
-import org.fossify.musicplayer.extensions.getTrackCoverArt
 import org.fossify.musicplayer.inlines.indexOfFirstOrNull
 import org.fossify.musicplayer.models.Album
 import org.fossify.musicplayer.models.AlbumSection
@@ -141,10 +139,6 @@ class AlbumsTracksAdapter(
             albumTitle.setTextColor(textColor)
             albumTracks.text = resources.getQuantityString(R.plurals.tracks_plural, album.trackCnt, album.trackCnt)
             albumTracks.setTextColor(textColor)
-
-            context.getAlbumCoverArt(album) { coverArt ->
-                loadImage(albumImage, coverArt, placeholderBig)
-            }
         }
     }
 
@@ -158,13 +152,8 @@ class AlbumsTracksAdapter(
             trackInfo.setTextColor(textColor)
 
             trackId.beGone()
-            trackImage.beVisible()
             trackDuration.text = track.duration.getFormattedDuration()
             trackDuration.setTextColor(textColor)
-
-            context.getTrackCoverArt(track) { coverArt ->
-                loadImage(trackImage, coverArt, placeholder)
-            }
         }
     }
 

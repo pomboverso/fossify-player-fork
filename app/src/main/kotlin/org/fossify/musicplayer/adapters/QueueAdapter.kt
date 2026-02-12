@@ -162,10 +162,6 @@ class QueueAdapter(activity: SimpleActivity, items: ArrayList<Track>, var curren
                 }
                 false
             }
-
-            context.getTrackCoverArt(track) { coverArt ->
-                loadImage(trackQueueImage, coverArt, placeholderBig)
-            }
         }
     }
 

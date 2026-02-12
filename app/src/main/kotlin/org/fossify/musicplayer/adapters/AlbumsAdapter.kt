@@ -13,7 +13,6 @@ import org.fossify.musicplayer.R
 import org.fossify.musicplayer.databinding.ItemAlbumBinding
 import org.fossify.musicplayer.extensions.audioHelper
 import org.fossify.musicplayer.extensions.config
-import org.fossify.musicplayer.extensions.getAlbumCoverArt
 import org.fossify.musicplayer.inlines.indexOfFirstOrNull
 import org.fossify.musicplayer.models.Album
 import org.fossify.musicplayer.models.Track
@@ -87,10 +86,6 @@ class AlbumsAdapter(activity: BaseSimpleActivity, items: ArrayList<Album>, recyc
             val tracks = resources.getQuantityString(R.plurals.tracks_plural, album.trackCnt, album.trackCnt)
             albumTracks.text = tracks
             albumTracks.setTextColor(textColor)
-
-            context.getAlbumCoverArt(album) { coverArt ->
-                loadImage(albumImage, coverArt, placeholderBig)
-            }
         }
     }
 

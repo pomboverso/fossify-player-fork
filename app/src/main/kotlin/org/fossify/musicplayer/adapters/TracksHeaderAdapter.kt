@@ -17,9 +17,7 @@ import org.fossify.musicplayer.activities.SimpleActivity
 import org.fossify.musicplayer.databinding.ItemAlbumHeaderBinding
 import org.fossify.musicplayer.databinding.ItemTrackBinding
 import org.fossify.musicplayer.dialogs.EditDialog
-import org.fossify.musicplayer.extensions.audioHelper
 import org.fossify.musicplayer.extensions.config
-import org.fossify.musicplayer.extensions.getAlbumCoverArt
 import org.fossify.musicplayer.models.AlbumHeader
 import org.fossify.musicplayer.models.ListItem
 import org.fossify.musicplayer.models.Track
@@ -138,7 +136,6 @@ class TracksHeaderAdapter(activity: SimpleActivity, items: ArrayList<ListItem>, 
             } else {
                 trackId.text = if (track.trackId != null) track.trackId.toString() else ""
             }
-            trackImage.beGone()
             trackId.beVisible()
         }
     }
@@ -162,16 +159,6 @@ class TracksHeaderAdapter(activity: SimpleActivity, items: ArrayList<ListItem>, 
             }
 
             ensureBackgroundThread {
-                val album = context.audioHelper.getAlbum(header.id)
-                if (album != null) {
-                    context.getAlbumCoverArt(album) { coverArt ->
-                        loadImage(albumImage, coverArt, placeholderBig)
-                    }
-                } else {
-                    context.runOnUiThread {
-                        albumImage.setImageDrawable(placeholderBig)
-                    }
-                }
             }
         }
     }

@@ -11,11 +11,11 @@
     android:paddingEnd="@dimen/medium_margin"
     android:paddingBottom="@dimen/activity_margin">
 
-    <ImageView
-        android:id="@+id/track_image"
-        android:layout_width="@dimen/song_image_size"
-        android:layout_height="@dimen/song_image_size"
-        android:visibility="gone" />
+<!--    <ImageView-->
+<!--        android:id="@+id/track_image"-->
+<!--        android:layout_width="@dimen/song_image_size"-->
+<!--        android:layout_height="@dimen/song_image_size"-->
+<!--        android:visibility="gone" />-->
 
     <org.fossify.commons.views.MyTextView
         android:id="@+id/track_id"

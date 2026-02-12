@@ -30,8 +30,6 @@ abstract class BaseMusicAdapter<Type>(
 
     var textToHighlight = ""
     val tagHelper by lazy { TagHelper(context) }
-    var placeholder = resources.getSmallPlaceholder(textColor)
-    var placeholderBig = resources.getBiggerPlaceholder(textColor)
     open val cornerRadius by lazy { resources.getDimension(org.fossify.commons.R.dimen.rounded_corner_radius_small).toInt() }
 
     init {
@@ -164,8 +162,6 @@ abstract class BaseMusicAdapter<Type>(
         if (textColor != newTextColor || properPrimaryColor != context.getProperPrimaryColor()) {
             updateTextColor(newTextColor)
             updatePrimaryColor()
-            placeholder = resources.getSmallPlaceholder(textColor)
-            placeholderBig = resources.getBiggerPlaceholder(textColor)
             notifyDataChanged()
         }
     }

@@ -21,7 +21,6 @@ import org.fossify.musicplayer.databinding.ItemTrackBinding
 import org.fossify.musicplayer.dialogs.EditDialog
 import org.fossify.musicplayer.extensions.audioHelper
 import org.fossify.musicplayer.extensions.config
-import org.fossify.musicplayer.extensions.getTrackCoverArt
 import org.fossify.musicplayer.helpers.ALL_TRACKS_PLAYLIST_ID
 import org.fossify.musicplayer.helpers.PLAYER_SORT_BY_CUSTOM
 import org.fossify.musicplayer.inlines.indexOfFirstOrNull
@@ -203,11 +202,6 @@ class TracksAdapter(
             }
 
             trackDuration.text = track.duration.getFormattedDuration()
-            activity.getTrackCoverArt(track) { coverArt ->
-                loadImage(trackImage, coverArt, placeholderBig)
-            }
-
-            trackImage.beVisible()
             trackId.beGone()
         }
     }

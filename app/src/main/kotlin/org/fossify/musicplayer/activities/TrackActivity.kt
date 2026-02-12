@@ -258,22 +258,11 @@ class TrackActivity : SimpleControllerActivity(), PlaybackSpeedListener {
                 options = RequestOptions().fitCenter(),
                 size = Size(wantedWidth, wantedHeight),
                 onLoadFailed = {
-                    val drawable = resources.getDrawable(R.drawable.ic_headset)
-                    val placeholder = getResizedDrawable(drawable, wantedHeight)
-                    placeholder.applyColorFilter(getProperTextColor())
-
-                    runOnUiThread {
-                        binding.activityTrackImage.setImageDrawable(placeholder)
-                    }
                 },
                 onResourceReady = {
                     val coverHeight = it.intrinsicHeight
                     if (coverHeight > 0 && binding.activityTrackImage.height != coverHeight) {
                         binding.activityTrackImage.layoutParams.height = coverHeight
-                    }
-
-                    runOnUiThread {
-                        binding.activityTrackImage.setImageDrawable(it)
                     }
                 }
             )
