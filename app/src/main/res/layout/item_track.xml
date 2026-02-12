@@ -60,15 +60,29 @@
 
     </LinearLayout>
 
-    <org.fossify.commons.views.MyTextView
-        android:id="@+id/track_duration"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingStart="@dimen/normal_margin"
-        android:paddingEnd="@dimen/medium_margin"
-        android:textSize="@dimen/bigger_text_size"
-        tools:text="3:45" />
+        android:layout_gravity="center|end"
+        android:orientation="vertical">
+
+        <org.fossify.commons.views.MyTextView
+            android:id="@+id/track_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textSize="@dimen/bigger_text_size"
+            tools:text="3:45" />
+
+        <org.fossify.commons.views.MyTextView
+            android:id="@+id/track_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:alpha="0.6"
+            android:textSize="@dimen/small_text_size"
+            tools:text="25mb" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/track_drag_handle"

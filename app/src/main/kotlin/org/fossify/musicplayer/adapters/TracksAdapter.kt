@@ -30,7 +30,9 @@ import org.fossify.musicplayer.models.Events
 import org.fossify.musicplayer.models.Playlist
 import org.fossify.musicplayer.models.Track
 import org.greenrobot.eventbus.EventBus
+import java.io.File
 import java.util.Locale
+import android.text.format.Formatter
 
 class TracksAdapter(
     activity: BaseSimpleActivity,
@@ -179,35 +181,6 @@ class TracksAdapter(
     }
 
     override fun getSelectedTracks(): List<Track> = items.filter { selectedKeys.contains(it.hashCode()) }
-
-//    @SuppressLint("ClickableViewAccessibility")
-//    private fun setupView(view: View, track: Track, holder: ViewHolder) {
-//        ItemTrackBinding.bind(view).apply {
-//            root.setupViewBackground(context)
-//            trackFrame.isSelected = selectedKeys.contains(track.hashCode())
-//            trackTitle.text = if (textToHighlight.isEmpty()) track.title else track.title.highlightTextPart(textToHighlight, properPrimaryColor)
-//            trackInfo.text = if (textToHighlight.isEmpty()) {
-//                "${track.artist} • ${track.album}"
-//            } else {
-//                ("${track.artist} • ${track.album}").highlightTextPart(textToHighlight, properPrimaryColor)
-//            }
-//            trackDragHandle.beVisibleIf(isPlaylistContent() && selectedKeys.isNotEmpty())
-//            trackDragHandle.applyColorFilter(textColor)
-//            trackDragHandle.setOnTouchListener { _, event ->
-//                if (event.action == MotionEvent.ACTION_DOWN) {
-//                    startReorderDragListener.requestDrag(holder)
-//                }
-//                false
-//            }
-//
-//            arrayOf(trackId, trackTitle, trackInfo, trackDuration).forEach {
-//                it.setTextColor(textColor)
-//            }
-//
-//            trackDuration.text = track.duration.getFormattedDuration()
-//            trackId.beGone()
-//        }
-//    }
 @SuppressLint("ClickableViewAccessibility")
 private fun setupView(view: View, track: Track, holder: ViewHolder) {
     val binding = ItemTrackBinding.bind(view)
@@ -218,7 +191,8 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
 
     // --- parse filename ---
     val filename = track.path.getFilenameFromPath().substringBeforeLast(".")
-    val parts = filename.split(" - ").map { it.trim() }
+    // split by separators surrounded by spaces: " - ", " – ", " — ", " : "
+    val parts = filename.split(Regex("\\s+[-–—:]\\s+")).map { it.trim() }
 
     val parsedArtist = parts.getOrNull(0) ?: track.artist
     val parsedTitle = parts.getOrNull(1) ?: track.title
@@ -256,6 +230,14 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
     // duration
     binding.trackDuration.text = track.duration.getFormattedDuration()
     binding.trackId.beGone()
+
+    // --- file size ---
+    val file = File(track.path)
+    binding.trackSize.text = if (file.exists()) {
+        Formatter.formatFileSize(context, file.length())
+    } else {
+        ""
+    }
 
     // --- tags (pills) ---
     binding.trackTags.removeAllViews()
