@@ -192,13 +192,12 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
 
     // --- parse filename ---
     val filename = track.path.getFilenameFromPath().substringBeforeLast(".")
-    // split by separators surrounded by spaces: " - ", " – ", " — ", " : "
     val parts = filename.split(Regex("\\s+[-–—:]\\s+")).map { it.trim() }
 
     val parsedArtist = parts.getOrNull(0) ?: track.artist
     val parsedTitle = parts.getOrNull(1) ?: track.title
-    val parsedCountryCode = parts.getOrNull(2) ?: ""
-    val parsedLanguageCode = parts.getOrNull(3) ?: ""
+    val parsedCountryCodes = parts.getOrNull(2)?.split(",")?.map { it.trim() } ?: emptyList()
+    val parsedLanguageCodes = parts.getOrNull(3)?.split(",")?.map { it.trim() } ?: emptyList()
 
     // title
     binding.trackTitle.text = if (textToHighlight.isEmpty()) {
@@ -207,7 +206,7 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
         parsedTitle.highlightTextPart(textToHighlight, properPrimaryColor)
     }
 
-    // artist line (just artist for display, tags will show country/language)
+    // artist line
     binding.trackInfo.text = if (textToHighlight.isEmpty()) {
         parsedArtist
     } else {
@@ -225,14 +224,14 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
     }
 
     // text colors
-    arrayOf(binding.trackId, binding.trackTitle, binding.trackInfo, binding.trackDuration)
+    arrayOf(binding.trackId, binding.trackTitle, binding.trackInfo, binding.trackDuration, binding.trackSize)
         .forEach { it.setTextColor(textColor) }
 
     // duration
     binding.trackDuration.text = track.duration.getFormattedDuration()
     binding.trackId.beGone()
 
-    // --- file size ---
+    // file size
     val file = File(track.path)
     binding.trackSize.text = if (file.exists()) {
         Formatter.formatFileSize(context, file.length())
@@ -242,26 +241,31 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
 
     // --- tags (pills) ---
     binding.trackTags.removeAllViews()
-    val tags = mutableListOf<String>()
+    val tags = mutableListOf<Pair<String, String>>() // Pair<text, type>
 
-    // country & language from filename
-    val countryName = if (parsedCountryCode.isNotBlank())
-        Locale("", parsedCountryCode).getDisplayCountry(Locale.getDefault())
-    else ""
-    val languageName = if (parsedLanguageCode.isNotBlank())
-        Locale(parsedLanguageCode).getDisplayLanguage(Locale.getDefault())
-    else ""
+    // countries
+    parsedCountryCodes.forEach { code ->
+        if (code.isNotBlank()) {
+            val name = Locale("", code).getDisplayCountry(Locale.getDefault())
+            if (name.isNotBlank()) tags.add(name to "country")
+        }
+    }
 
-    if (countryName.isNotBlank()) tags.add(countryName)
-    if (languageName.isNotBlank()) tags.add(languageName)
+    // languages
+    parsedLanguageCodes.forEach { code ->
+        if (code.isNotBlank()) {
+            val name = Locale(code).getDisplayLanguage(Locale.getDefault())
+            if (name.isNotBlank()) tags.add(name to "language")
+        }
+    }
 
     // file type
-    val fily_type = track.path.getFilenameExtension().uppercase()
-    if (fily_type != "M4A") tags.add(fily_type)
+    val fileType = track.path.getFilenameExtension().uppercase()
+    if (fileType != "M4A") tags.add(fileType to "file")
 
     // create pill views
-    tags.forEach { tagItem ->
-        val backgroundRes = when (tagItemType(tagItem)) {
+    tags.forEach { (tagText, tagType) ->
+        val backgroundRes = when (tagType) {
             "country" -> R.drawable.tag_country
             "language" -> R.drawable.tag_lang
             "file" -> R.drawable.tag_format
@@ -269,7 +273,7 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
         }
 
         val tv = TextView(context).apply {
-            text = tagItem
+            text = tagText
             setTextColor(Color.WHITE)
             textSize = resources.getDimension(R.dimen.small_text_size) / resources.displayMetrics.scaledDensity
             setPadding(16, 4, 16, 4)
@@ -283,6 +287,7 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
         binding.trackTags.addView(tv)
     }
 }
+
 
     private fun tagItemType(tag: String): String {
         return when {

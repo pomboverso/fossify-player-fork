@@ -7,10 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/tiny_margin"
     android:orientation="horizontal"
-    android:paddingStart="@dimen/normal_margin"
-    android:paddingTop="@dimen/activity_margin"
-    android:paddingEnd="@dimen/medium_margin"
-    android:paddingBottom="@dimen/activity_margin">
+    android:padding="@dimen/normal_margin">
 
     <org.fossify.commons.views.MyTextView
         android:id="@+id/track_id"
@@ -89,7 +86,7 @@
         android:layout_width="@dimen/song_image_size"
         android:layout_height="@dimen/song_image_size"
         android:layout_gravity="center|end"
-        android:padding="@dimen/medium_margin"
+        android:paddingStart="@dimen/medium_margin"
         android:src="@drawable/ic_drag_handle_vector"
         android:visibility="gone" />
 
