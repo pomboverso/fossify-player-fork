@@ -48,6 +48,7 @@ abstract class SongsDatabase : RoomDatabase() {
                             .addMigrations(MIGRATION_12_13)
                             .addMigrations(MIGRATION_13_14)
                             .addMigrations(MIGRATION_14_15)
+//                            .addMigrations(MIGRATION_15_16)
                             .build()
                     }
                 }
@@ -232,5 +233,12 @@ abstract class SongsDatabase : RoomDatabase() {
                 }
             }
         }
+
+//        private val MIGRATION_15_16 = object : Migration(15, 16) {
+//            override fun migrate(database: SupportSQLiteDatabase) {
+//                database.execSQL("ALTER TABLE tracks ADD COLUMN country TEXT NOT NULL DEFAULT ''")
+//                database.execSQL("ALTER TABLE tracks ADD COLUMN language TEXT NOT NULL DEFAULT ''")
+//            }
+//        }
     }
 }

@@ -5,8 +5,10 @@ import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexboxLayout
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import org.fossify.commons.activities.BaseSimpleActivity
 import org.fossify.commons.dialogs.ConfirmationDialog
@@ -28,6 +30,7 @@ import org.fossify.musicplayer.models.Events
 import org.fossify.musicplayer.models.Playlist
 import org.fossify.musicplayer.models.Track
 import org.greenrobot.eventbus.EventBus
+import java.util.Locale
 
 class TracksAdapter(
     activity: BaseSimpleActivity,
@@ -177,34 +180,118 @@ class TracksAdapter(
 
     override fun getSelectedTracks(): List<Track> = items.filter { selectedKeys.contains(it.hashCode()) }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun setupView(view: View, track: Track, holder: ViewHolder) {
-        ItemTrackBinding.bind(view).apply {
-            root.setupViewBackground(context)
-            trackFrame.isSelected = selectedKeys.contains(track.hashCode())
-            trackTitle.text = if (textToHighlight.isEmpty()) track.title else track.title.highlightTextPart(textToHighlight, properPrimaryColor)
-            trackInfo.text = if (textToHighlight.isEmpty()) {
-                "${track.artist} • ${track.album}"
-            } else {
-                ("${track.artist} • ${track.album}").highlightTextPart(textToHighlight, properPrimaryColor)
-            }
-            trackDragHandle.beVisibleIf(isPlaylistContent() && selectedKeys.isNotEmpty())
-            trackDragHandle.applyColorFilter(textColor)
-            trackDragHandle.setOnTouchListener { _, event ->
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    startReorderDragListener.requestDrag(holder)
-                }
-                false
-            }
+//    @SuppressLint("ClickableViewAccessibility")
+//    private fun setupView(view: View, track: Track, holder: ViewHolder) {
+//        ItemTrackBinding.bind(view).apply {
+//            root.setupViewBackground(context)
+//            trackFrame.isSelected = selectedKeys.contains(track.hashCode())
+//            trackTitle.text = if (textToHighlight.isEmpty()) track.title else track.title.highlightTextPart(textToHighlight, properPrimaryColor)
+//            trackInfo.text = if (textToHighlight.isEmpty()) {
+//                "${track.artist} • ${track.album}"
+//            } else {
+//                ("${track.artist} • ${track.album}").highlightTextPart(textToHighlight, properPrimaryColor)
+//            }
+//            trackDragHandle.beVisibleIf(isPlaylistContent() && selectedKeys.isNotEmpty())
+//            trackDragHandle.applyColorFilter(textColor)
+//            trackDragHandle.setOnTouchListener { _, event ->
+//                if (event.action == MotionEvent.ACTION_DOWN) {
+//                    startReorderDragListener.requestDrag(holder)
+//                }
+//                false
+//            }
+//
+//            arrayOf(trackId, trackTitle, trackInfo, trackDuration).forEach {
+//                it.setTextColor(textColor)
+//            }
+//
+//            trackDuration.text = track.duration.getFormattedDuration()
+//            trackId.beGone()
+//        }
+//    }
+@SuppressLint("ClickableViewAccessibility")
+private fun setupView(view: View, track: Track, holder: ViewHolder) {
+    val binding = ItemTrackBinding.bind(view)
 
-            arrayOf(trackId, trackTitle, trackInfo, trackDuration).forEach {
-                it.setTextColor(textColor)
-            }
+    // background & selection
+    binding.root.setupViewBackground(context)
+    binding.trackFrame.isSelected = selectedKeys.contains(track.hashCode())
 
-            trackDuration.text = track.duration.getFormattedDuration()
-            trackId.beGone()
-        }
+    // --- parse filename ---
+    val filename = track.path.getFilenameFromPath().substringBeforeLast(".")
+    val parts = filename.split(" - ").map { it.trim() }
+
+    val parsedArtist = parts.getOrNull(0) ?: track.artist
+    val parsedTitle = parts.getOrNull(1) ?: track.title
+    val parsedCountryCode = parts.getOrNull(2) ?: ""
+    val parsedLanguageCode = parts.getOrNull(3) ?: ""
+
+    // title
+    binding.trackTitle.text = if (textToHighlight.isEmpty()) {
+        parsedTitle
+    } else {
+        parsedTitle.highlightTextPart(textToHighlight, properPrimaryColor)
     }
+
+    // artist line (just artist for display, tags will show country/language)
+    binding.trackInfo.text = if (textToHighlight.isEmpty()) {
+        parsedArtist
+    } else {
+        parsedArtist.highlightTextPart(textToHighlight, properPrimaryColor)
+    }
+
+    // drag handle
+    binding.trackDragHandle.beVisibleIf(isPlaylistContent() && selectedKeys.isNotEmpty())
+    binding.trackDragHandle.applyColorFilter(textColor)
+    binding.trackDragHandle.setOnTouchListener { _, event ->
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            startReorderDragListener.requestDrag(holder)
+        }
+        false
+    }
+
+    // text colors
+    arrayOf(binding.trackId, binding.trackTitle, binding.trackInfo, binding.trackDuration)
+        .forEach { it.setTextColor(textColor) }
+
+    // duration
+    binding.trackDuration.text = track.duration.getFormattedDuration()
+    binding.trackId.beGone()
+
+    // --- tags (pills) ---
+    binding.trackTags.removeAllViews()
+    val tags = mutableListOf<String>()
+
+    // country & language from filename
+    val countryName = if (parsedCountryCode.isNotBlank())
+        Locale("", parsedCountryCode).getDisplayCountry(Locale.getDefault())
+    else ""
+    val languageName = if (parsedLanguageCode.isNotBlank())
+        Locale(parsedLanguageCode).getDisplayLanguage(Locale.getDefault())
+    else ""
+
+    if (countryName.isNotBlank()) tags.add(countryName)
+    if (languageName.isNotBlank()) tags.add(languageName)
+
+    // file type
+    val fily_type = track.path.getFilenameExtension().uppercase()
+    if (fily_type != "M4A") tags.add(fily_type)
+
+    // create pill views
+    tags.forEach { tag ->
+        val tv = TextView(context).apply {
+            text = tag
+            setTextColor(textColor)
+            textSize = resources.getDimension(R.dimen.small_text_size) / resources.displayMetrics.scaledDensity
+            setPadding(16, 4, 16, 4)
+            setBackgroundResource(R.drawable.tag_pill)
+            layoutParams = FlexboxLayout.LayoutParams(
+                FlexboxLayout.LayoutParams.WRAP_CONTENT,
+                FlexboxLayout.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(4, 4, 4, 4) }
+        }
+        binding.trackTags.addView(tv)
+    }
+}
 
     override fun onChange(position: Int): String {
         val sorting = if (isPlaylistContent() && playlist != null) {

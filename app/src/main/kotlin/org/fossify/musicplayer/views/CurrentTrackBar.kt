@@ -48,20 +48,6 @@ class CurrentTrackBar(context: Context, attributeSet: AttributeSet) : RelativeLa
 
         @SuppressLint("SetTextI18n")
         binding.currentTrackLabel.text = "${track.title}$artist"
-        val cornerRadius = resources.getDimension(org.fossify.commons.R.dimen.rounded_corner_radius_small).toInt()
-        val currentTrackPlaceholder = resources.getColoredDrawableWithColor(R.drawable.ic_headset, context.getProperTextColor())
-        val options = RequestOptions()
-            .error(currentTrackPlaceholder)
-            .transform(CenterCrop(), RoundedCorners(cornerRadius))
-
-        context.getTrackCoverArt(track) { coverArt ->
-            (context as? Activity)?.ensureActivityNotDestroyed {
-                Glide.with(this)
-                    .load(coverArt)
-                    .apply(options)
-                    .into(findViewById(R.id.current_track_image))
-            }
-        }
     }
 
     fun updateTrackState(isPlaying: Boolean) {

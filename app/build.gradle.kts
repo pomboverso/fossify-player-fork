@@ -155,6 +155,7 @@ dependencies {
     implementation(libs.autofittextview)
     implementation(libs.jaudiotagger)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
