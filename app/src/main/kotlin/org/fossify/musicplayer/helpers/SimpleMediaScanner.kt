@@ -230,13 +230,17 @@ class SimpleMediaScanner(private val context: Application) {
         }
 
         context.queryCursor(uri, projection.toTypedArray(), showErrors = true) { cursor ->
+            val path = cursor.getStringValue(Audio.Media.DATA).orEmpty()
+            val parsed = parseFullFromFilename(path)
+
+            val title = parsed.title
+            val artist = parsed.artists
+
             val id = cursor.getLongValue(Audio.Media._ID)
-            val title = cursor.getStringValue(Audio.Media.TITLE)
+
             val duration = cursor.getIntValue(Audio.Media.DURATION) / 1000
             var trackId = cursor.getStringValue(Audio.Media.TRACK)?.firstNumber()
                 ?: cursor.getIntValueOrNull(Audio.Media.TRACK)
-            val path = cursor.getStringValue(Audio.Media.DATA).orEmpty()
-            val artist = cursor.getStringValue(Audio.Media.ARTIST) ?: MediaStore.UNKNOWN_STRING
             val folderName = if (isQPlus()) {
                 cursor.getStringValue(Audio.Media.BUCKET_DISPLAY_NAME) ?: MediaStore.UNKNOWN_STRING
             } else {
@@ -274,11 +278,37 @@ class SimpleMediaScanner(private val context: Application) {
             }
 
             if (!title.isNullOrEmpty()) {
+                val parsed = parseFullFromFilename(path)
+
                 val track = Track(
-                    id = 0, mediaStoreId = id, title = title, artist = artist, path = path, duration = duration, album = album, genre = genre,
-                    coverArt = coverArt, playListId = 0, trackId = trackId, discNumber = discNumber, folderName = folderName, albumId = albumId, artistId = artistId,
-                    genreId = genreId, year = year, dateAdded = dateAdded, orderInPlaylist = 0
+                    id = 0,
+                    mediaStoreId = 0,
+                    title = parsed.title,
+                    artist = parsed.artists,
+                    path = path,
+                    duration = duration,
+                    album = album,
+                    genre = genre,
+                    coverArt = "", // manual scan → no artwork
+                    playListId = 0,
+                    trackId = trackId,
+                    discNumber = discNumber,
+                    folderName = folderName,
+                    albumId = 0,
+                    artistId = 0,
+                    genreId = 0,
+                    year = year,
+                    dateAdded = dateAdded,
+                    orderInPlaylist = 0,
+
+                    country = parsed.country,
+                    language = parsed.language,
+                    fileFormat = parsed.format,
+
+                    flags = FLAG_MANUAL_CACHE
                 )
+
+                track.mediaStoreId = track.hashCode().toLong()
                 tracks.add(track)
             }
         }
@@ -468,12 +498,38 @@ class SimpleMediaScanner(private val context: Application) {
             val genre = retriever.extractMetadata(METADATA_KEY_GENRE).orEmpty()
 
             if (title.isNotEmpty()) {
+                val parsed = parseFullFromFilename(path)
+
+                println("PARSED -> $parsed")
+
                 val track = Track(
-                    id = 0, mediaStoreId = 0, title = title, artist = artist, path = path, duration = duration, album = album, genre = genre,
-                    coverArt = "", playListId = 0, trackId = trackId, discNumber = discNumber, folderName = folderName, albumId = 0, artistId = 0,
-                    genreId = 0, year = year, dateAdded = dateAdded, orderInPlaylist = 0, flags = FLAG_MANUAL_CACHE
+                    id = 0,
+                    mediaStoreId = 0,
+                    title = parsed.title,
+                    artist = parsed.artists,
+                    path = path,
+                    duration = duration,
+                    album = album,
+                    genre = genre,
+                    coverArt = "", // manual scan → no artwork
+                    playListId = 0,
+                    trackId = trackId,
+                    discNumber = discNumber,
+                    folderName = folderName,
+                    albumId = 0,
+                    artistId = 0,
+                    genreId = 0,
+                    year = year,
+                    dateAdded = dateAdded,
+                    orderInPlaylist = 0,
+
+                    country = parsed.country,
+                    language = parsed.language,
+                    fileFormat = parsed.format,
+
+                    flags = FLAG_MANUAL_CACHE
                 )
-                // use hashCode() as id for tracking purposes, there's a very slim chance of collision
+
                 track.mediaStoreId = track.hashCode().toLong()
                 tracks.add(track)
             }
@@ -674,5 +730,40 @@ class SimpleMediaScanner(private val context: Application) {
                 instance!!
             }
         }
+    }
+
+    data class ParsedTrack(
+        val artists: String,
+        val title: String,
+        val country: String,
+        val language: String,
+        val format: String
+    )
+
+    private fun parseFullFromFilename(path: String): ParsedTrack {
+        val filenameWithExt = path.getFilenameFromPath()
+        val format = filenameWithExt.substringAfterLast(".", "").uppercase()
+
+        val filename = filenameWithExt
+            .substringBeforeLast(".")
+            .trim()
+
+        // split only on separators WITH spaces around them
+        val parts = filename
+            .split(Regex("\\s+[-–—]\\s+"))
+            .map { it.trim() }
+
+        val artists = parts.getOrNull(0).orEmpty()
+        val title = parts.getOrNull(1).orEmpty()
+        val country = parts.getOrNull(2).orEmpty()
+        val language = parts.getOrNull(3).orEmpty()
+
+        return ParsedTrack(
+            artists = artists,
+            title = title,
+            country = country,
+            language = language,
+            format = format
+        )
     }
 }

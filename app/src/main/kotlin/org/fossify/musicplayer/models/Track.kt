@@ -40,8 +40,10 @@ data class Track(
     @ColumnInfo(name = "date_added") var dateAdded: Int,
     @ColumnInfo(name = "order_in_playlist") var orderInPlaylist: Int,
     @ColumnInfo(name = "flags") var flags: Int = 0,
-//    @ColumnInfo(name = "country") var country: String = "",
-//    @ColumnInfo(name = "language") var language: String = ""
+    @ColumnInfo(name = "country") var country: String = "",
+    @ColumnInfo(name = "language") var language: String = "",
+    @ColumnInfo(name = "file_format") var fileFormat: String = ""
+
 ) : Serializable, ListItem() {
 
     companion object {

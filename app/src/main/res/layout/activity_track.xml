@@ -139,11 +139,47 @@
             android:paddingEnd="@dimen/activity_margin"
             android:scrollHorizontally="true"
             android:textSize="@dimen/actionbar_text_size"
-            app:layout_constraintBottom_toTopOf="@+id/activity_track_toggle_shuffle"
+            app:layout_constraintBottom_toTopOf="@+id/activity_track_country"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_track_title"
             tools:text="Track artist" />
+
+        <org.fossify.musicplayer.views.MarqueeTextView
+            android:id="@+id/activity_track_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="800dp"
+            android:alpha="0.8"
+            android:fadingEdge="horizontal"
+            android:gravity="center"
+            android:paddingStart="@dimen/activity_margin"
+            android:paddingEnd="@dimen/activity_margin"
+            android:scrollHorizontally="true"
+            android:textSize="@dimen/actionbar_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/activity_track_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_artist"
+            tools:text="Track country" />
+
+        <org.fossify.musicplayer.views.MarqueeTextView
+            android:id="@+id/activity_track_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="800dp"
+            android:alpha="0.8"
+            android:fadingEdge="horizontal"
+            android:gravity="center"
+            android:paddingStart="@dimen/activity_margin"
+            android:paddingEnd="@dimen/activity_margin"
+            android:scrollHorizontally="true"
+            android:textSize="@dimen/actionbar_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/activity_track_toggle_shuffle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_country"
+            tools:text="Track language" />
 
         <ImageView
             android:id="@+id/activity_track_toggle_shuffle"
@@ -156,7 +192,7 @@
             app:layout_constraintBottom_toTopOf="@+id/next_track_holder"
             app:layout_constraintEnd_toStartOf="@+id/activity_track_previous"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_track_artist" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_language" />
 
         <ImageView
             android:id="@+id/activity_track_previous"
@@ -169,7 +205,7 @@
             app:layout_constraintBottom_toTopOf="@+id/next_track_holder"
             app:layout_constraintEnd_toStartOf="@+id/activity_track_play_pause"
             app:layout_constraintStart_toEndOf="@+id/activity_track_toggle_shuffle"
-            app:layout_constraintTop_toBottomOf="@+id/activity_track_artist" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_language" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/activity_track_play_pause"
@@ -182,7 +218,7 @@
             app:layout_constraintBottom_toTopOf="@+id/next_track_holder"
             app:layout_constraintEnd_toStartOf="@+id/activity_track_next"
             app:layout_constraintStart_toEndOf="@+id/activity_track_previous"
-            app:layout_constraintTop_toBottomOf="@+id/activity_track_artist"
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_language"
             app:lottie_autoPlay="false"
             app:lottie_loop="false"
             app:lottie_rawRes="@raw/playpause" />
@@ -198,7 +234,7 @@
             app:layout_constraintBottom_toTopOf="@+id/next_track_holder"
             app:layout_constraintEnd_toStartOf="@+id/activity_track_playback_setting"
             app:layout_constraintStart_toEndOf="@+id/activity_track_play_pause"
-            app:layout_constraintTop_toBottomOf="@+id/activity_track_artist" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_language" />
 
         <ImageView
             android:id="@+id/activity_track_playback_setting"
@@ -211,7 +247,7 @@
             app:layout_constraintBottom_toTopOf="@+id/next_track_holder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/activity_track_next"
-            app:layout_constraintTop_toBottomOf="@+id/activity_track_artist" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_track_language" />
 
         <RelativeLayout
             android:id="@+id/next_track_holder"

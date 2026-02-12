@@ -153,9 +153,12 @@ class TrackActivity : SimpleControllerActivity(), PlaybackSpeedListener {
         val track = item?.toTrack() ?: return
 
         setupTopArt(track)
+
         binding.apply {
             activityTrackTitle.text = track.title
             activityTrackArtist.text = track.artist
+            activityTrackCountry.text = track.country
+            activityTrackLanguage.text = track.language
             activityTrackTitle.setOnLongClickListener {
                 copyToClipboard(activityTrackTitle.value)
                 true
