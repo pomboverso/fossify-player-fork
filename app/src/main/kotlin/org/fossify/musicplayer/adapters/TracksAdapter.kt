@@ -1,6 +1,7 @@
 package org.fossify.musicplayer.adapters
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
@@ -259,21 +260,47 @@ private fun setupView(view: View, track: Track, holder: ViewHolder) {
     if (fily_type != "M4A") tags.add(fily_type)
 
     // create pill views
-    tags.forEach { tag ->
+    tags.forEach { tagItem ->
+        val backgroundRes = when (tagItemType(tagItem)) {
+            "country" -> R.drawable.tag_country
+            "language" -> R.drawable.tag_lang
+            "file" -> R.drawable.tag_format
+            else -> R.drawable.tag_format
+        }
+
         val tv = TextView(context).apply {
-            text = tag
-            setTextColor(textColor)
+            text = tagItem
+            setTextColor(Color.WHITE)
             textSize = resources.getDimension(R.dimen.small_text_size) / resources.displayMetrics.scaledDensity
             setPadding(16, 4, 16, 4)
-            setBackgroundResource(R.drawable.tag_pill)
+            setBackgroundResource(backgroundRes)
             layoutParams = FlexboxLayout.LayoutParams(
                 FlexboxLayout.LayoutParams.WRAP_CONTENT,
                 FlexboxLayout.LayoutParams.WRAP_CONTENT
             ).apply { setMargins(4, 4, 4, 4) }
         }
+
         binding.trackTags.addView(tv)
     }
 }
+
+    private fun tagItemType(tag: String): String {
+        return when {
+            // You can use your logic to decide type
+            isCountry(tag) -> "country"
+            isLanguage(tag) -> "language"
+            else -> "file"
+        }
+    }
+
+    // Example implementations (simplest version)
+    private fun isCountry(tag: String) = tag.length == 2 || Locale.getISOCountries().any {
+        Locale("", it).getDisplayCountry(Locale.getDefault()) == tag
+    }
+
+    private fun isLanguage(tag: String) = Locale.getISOLanguages().any {
+        Locale(it).getDisplayLanguage(Locale.getDefault()) == tag
+    }
 
     override fun onChange(position: Int): String {
         val sorting = if (isPlaylistContent() && playlist != null) {
