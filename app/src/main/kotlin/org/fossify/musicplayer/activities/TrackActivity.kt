@@ -29,7 +29,6 @@ import org.fossify.commons.extensions.applyColorFilter
 import org.fossify.commons.extensions.beGone
 import org.fossify.commons.extensions.beVisible
 import org.fossify.commons.extensions.copyToClipboard
-import org.fossify.commons.extensions.getColoredDrawableWithColor
 import org.fossify.commons.extensions.getFormattedDuration
 import org.fossify.commons.extensions.getProperBackgroundColor
 import org.fossify.commons.extensions.getProperPrimaryColor
@@ -54,7 +53,6 @@ import org.fossify.musicplayer.extensions.nextMediaItem
 import org.fossify.musicplayer.extensions.sendCommand
 import org.fossify.musicplayer.extensions.setRepeatMode
 import org.fossify.musicplayer.extensions.shuffledMediaItemsIndices
-import org.fossify.musicplayer.extensions.toMediaItem
 import org.fossify.musicplayer.extensions.toTrack
 import org.fossify.musicplayer.extensions.updatePlayPauseIcon
 import org.fossify.musicplayer.fragments.PlaybackSpeedFragment
@@ -76,7 +74,6 @@ class TrackActivity : SimpleControllerActivity(), PlaybackSpeedListener {
     }
 
     private var isThirdPartyIntent = false
-    private lateinit var nextTrackPlaceholder: Drawable
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -90,8 +87,6 @@ class TrackActivity : SimpleControllerActivity(), PlaybackSpeedListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupEdgeToEdge(padBottomSystem = listOf(binding.nextTrackHolder))
-        nextTrackPlaceholder =
-            resources.getColoredDrawableWithColor(R.drawable.ic_headset, getProperTextColor())
         setupButtons()
         setupFlingListener()
 
@@ -235,14 +230,8 @@ class TrackActivity : SimpleControllerActivity(), PlaybackSpeedListener {
                 options = RequestOptions().transform(CenterCrop(), RoundedCorners(cornerRadius)),
                 size = Size(wantedSize, wantedSize),
                 onLoadFailed = {
-                    runOnUiThread {
-                        binding.nextTrackImage.setImageDrawable(nextTrackPlaceholder)
-                    }
                 },
                 onResourceReady = {
-                    runOnUiThread {
-                        binding.nextTrackImage.setImageDrawable(it)
-                    }
                 }
             )
         }

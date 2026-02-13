@@ -263,26 +263,14 @@
                 android:background="@color/divider_grey"
                 android:importantForAccessibility="no" />
 
-            <ImageView
-                android:id="@+id/next_track_image"
-                android:layout_width="@dimen/song_image_size"
-                android:layout_height="@dimen/song_image_size"
-                android:layout_marginStart="@dimen/normal_margin"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:layout_marginEnd="@dimen/normal_margin"
-                android:layout_marginBottom="@dimen/normal_margin" />
-
             <org.fossify.commons.views.MyTextView
                 android:id="@+id/next_track_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/next_track_image"
-                android:layout_alignBottom="@+id/next_track_image"
-                android:layout_toEndOf="@+id/next_track_image"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:paddingEnd="@dimen/normal_margin"
+                android:padding="@dimen/big_margin"
                 android:textSize="@dimen/bigger_text_size"
                 tools:text="Next Track: My Track" />
 

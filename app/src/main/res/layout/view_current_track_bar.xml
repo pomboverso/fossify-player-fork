@@ -16,25 +16,13 @@
         android:background="@color/divider_grey"
         android:importantForAccessibility="no" />
 
-    <ImageView
-        android:id="@+id/current_track_image"
-        android:layout_width="@dimen/song_image_size"
-        android:layout_height="@dimen/song_image_size"
-        android:layout_marginStart="@dimen/normal_margin"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginBottom="@dimen/normal_margin" />
-
     <org.fossify.musicplayer.views.MarqueeTextView
         android:id="@+id/current_track_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/current_track_image"
-        android:layout_alignBottom="@+id/current_track_image"
         android:layout_toStartOf="@+id/current_track_play_pause"
-        android:layout_toEndOf="@+id/current_track_image"
         android:gravity="center_vertical"
-        android:paddingEnd="@dimen/activity_margin"
+        android:padding="@dimen/activity_margin"
         android:textSize="@dimen/bigger_text_size"
         tools:text="My Track" />
 
@@ -42,8 +30,8 @@
         android:id="@+id/current_track_play_pause"
         android:layout_width="@dimen/smaller_icon_size"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/current_track_image"
-        android:layout_alignBottom="@+id/current_track_image"
+        android:layout_alignTop="@+id/current_track_label"
+        android:layout_alignBottom="@+id/current_track_label"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/normal_margin"
         android:background="?attr/selectableItemBackgroundBorderless"
