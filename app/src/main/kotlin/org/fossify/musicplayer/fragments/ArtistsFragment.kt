@@ -22,7 +22,7 @@ import org.fossify.musicplayer.extensions.config
 import org.fossify.musicplayer.extensions.mediaScanner
 import org.fossify.musicplayer.extensions.viewBinding
 import org.fossify.musicplayer.helpers.ARTIST
-import org.fossify.musicplayer.helpers.TAB_ARTISTS
+//import org.fossify.musicplayer.helpers.TAB_ARTISTS
 import org.fossify.musicplayer.models.Artist
 import org.fossify.musicplayer.models.sortSafely
 
@@ -94,11 +94,11 @@ class ArtistsFragment(context: Context, attributeSet: AttributeSet) : MyViewPage
     }
 
     override fun onSortOpen(activity: SimpleActivity) {
-        ChangeSortingDialog(activity, TAB_ARTISTS) {
-            val adapter = getAdapter() ?: return@ChangeSortingDialog
-            artists.sortSafely(activity.config.artistSorting)
-            adapter.updateItems(artists, forceUpdate = true)
-        }
+//        ChangeSortingDialog(activity, TAB_ARTISTS) {
+//            val adapter = getAdapter() ?: return@ChangeSortingDialog
+//            artists.sortSafely(activity.config.artistSorting)
+//            adapter.updateItems(artists, forceUpdate = true)
+//        }
     }
 
     override fun setupColors(textColor: Int, adjustedPrimaryColor: Int) {

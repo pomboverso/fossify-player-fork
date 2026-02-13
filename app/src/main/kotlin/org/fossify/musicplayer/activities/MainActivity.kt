@@ -306,9 +306,9 @@ class MainActivity : SimpleMusicActivity() {
         val stringId = when (position) {
             TAB_PLAYLISTS -> R.string.playlists
             TAB_FOLDERS -> R.string.folders
-            TAB_ARTISTS -> R.string.artists
-            TAB_ALBUMS -> R.string.albums
-            TAB_GENRES -> R.string.genres
+//            TAB_ARTISTS -> R.string.artists
+//            TAB_ALBUMS -> R.string.albums
+//            TAB_GENRES -> R.string.genres
             else -> R.string.tracks
         }
 

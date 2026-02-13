@@ -22,7 +22,7 @@ import org.fossify.musicplayer.extensions.config
 import org.fossify.musicplayer.extensions.mediaScanner
 import org.fossify.musicplayer.extensions.viewBinding
 import org.fossify.musicplayer.helpers.GENRE
-import org.fossify.musicplayer.helpers.TAB_GENRES
+//import org.fossify.musicplayer.helpers.TAB_GENRES
 import org.fossify.musicplayer.models.Genre
 import org.fossify.musicplayer.models.sortSafely
 
@@ -94,11 +94,11 @@ class GenresFragment(context: Context, attributeSet: AttributeSet) : MyViewPager
     }
 
     override fun onSortOpen(activity: SimpleActivity) {
-        ChangeSortingDialog(activity, TAB_GENRES) {
-            val adapter = getAdapter() ?: return@ChangeSortingDialog
-            genres.sortSafely(activity.config.genreSorting)
-            adapter.updateItems(genres, forceUpdate = true)
-        }
+//        ChangeSortingDialog(activity, TAB_GENRES) {
+//            val adapter = getAdapter() ?: return@ChangeSortingDialog
+//            genres.sortSafely(activity.config.genreSorting)
+//            adapter.updateItems(genres, forceUpdate = true)
+//        }
     }
 
     override fun setupColors(textColor: Int, adjustedPrimaryColor: Int) {

@@ -15,10 +15,10 @@ import androidx.media3.session.MediaSession.MediaItemsWithStartPosition
 import com.google.common.util.concurrent.MoreExecutors
 import org.fossify.musicplayer.R
 import org.fossify.musicplayer.extensions.*
-import org.fossify.musicplayer.helpers.TAB_ALBUMS
-import org.fossify.musicplayer.helpers.TAB_ARTISTS
+//import org.fossify.musicplayer.helpers.TAB_ALBUMS
+//import org.fossify.musicplayer.helpers.TAB_ARTISTS
 import org.fossify.musicplayer.helpers.TAB_FOLDERS
-import org.fossify.musicplayer.helpers.TAB_GENRES
+//import org.fossify.musicplayer.helpers.TAB_GENRES
 import org.fossify.musicplayer.helpers.TAB_PLAYLISTS
 import org.fossify.musicplayer.helpers.TAB_TRACKS
 import org.fossify.musicplayer.models.QueueItem
@@ -178,7 +178,7 @@ internal class MediaItemProvider(private val context: Context) {
                 buildFolders()
 //                buildArtists()
 //                buildAlbums()
-                buildTracks()
+//                buildTracks()
 //                buildGenres()
             } catch (e: Exception) {
                 state = STATE_ERROR

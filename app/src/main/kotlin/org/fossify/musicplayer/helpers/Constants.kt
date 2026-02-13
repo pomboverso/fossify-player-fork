@@ -76,16 +76,16 @@ const val SHOW_FILENAME_ALWAYS = 3
 
 const val TAB_PLAYLISTS = 1
 const val TAB_FOLDERS = 2
-const val TAB_ARTISTS = 4
-const val TAB_ALBUMS = 8
+//const val TAB_ARTISTS = 4
+//const val TAB_ALBUMS = 8
 const val TAB_TRACKS = 16
-const val TAB_GENRES = 32
+//const val TAB_GENRES = 32
 const val ACTIVITY_PLAYLIST_FOLDER = 64
 
 const val FLAG_MANUAL_CACHE = 1
 const val FLAG_IS_CURRENT = 2
 
-const val ALL_TABS_MASK = TAB_PLAYLISTS or TAB_FOLDERS or TAB_ARTISTS or TAB_ALBUMS or TAB_TRACKS
+const val ALL_TABS_MASK = TAB_PLAYLISTS or TAB_FOLDERS or TAB_TRACKS //or TAB_ARTISTS or TAB_ALBUMS
 
 val tabsList: ArrayList<Int>
     get() = arrayListOf(
@@ -93,7 +93,7 @@ val tabsList: ArrayList<Int>
         TAB_FOLDERS,
 //        TAB_ARTISTS,
 //        TAB_ALBUMS,
-        TAB_TRACKS,
+//        TAB_TRACKS,
 //        TAB_GENRES
     )
 

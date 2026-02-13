@@ -25,10 +25,10 @@ class ViewPagerAdapter(val activity: SimpleActivity) : PagerAdapter() {
         val fragment =  when (tab) {
             TAB_PLAYLISTS -> FragmentPlaylistsBinding.inflate(layoutInflater, container, false).root
             TAB_FOLDERS -> FragmentFoldersBinding.inflate(layoutInflater, container, false).root
-            TAB_ARTISTS -> FragmentArtistsBinding.inflate(layoutInflater, container, false).root
-            TAB_ALBUMS -> FragmentAlbumsBinding.inflate(layoutInflater, container, false).root
+//            TAB_ARTISTS -> FragmentArtistsBinding.inflate(layoutInflater, container, false).root
+//            TAB_ALBUMS -> FragmentAlbumsBinding.inflate(layoutInflater, container, false).root
             TAB_TRACKS -> FragmentTracksBinding.inflate(layoutInflater, container, false).root
-            TAB_GENRES -> FragmentGenresBinding.inflate(layoutInflater, container, false).root
+//            TAB_GENRES -> FragmentGenresBinding.inflate(layoutInflater, container, false).root
             else -> throw IllegalArgumentException("Unknown tab: $tab")
         }
 

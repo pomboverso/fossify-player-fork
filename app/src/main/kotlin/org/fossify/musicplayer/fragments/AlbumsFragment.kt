@@ -22,7 +22,7 @@ import org.fossify.musicplayer.extensions.config
 import org.fossify.musicplayer.extensions.mediaScanner
 import org.fossify.musicplayer.extensions.viewBinding
 import org.fossify.musicplayer.helpers.ALBUM
-import org.fossify.musicplayer.helpers.TAB_ALBUMS
+//import org.fossify.musicplayer.helpers.TAB_ALBUMS
 import org.fossify.musicplayer.models.Album
 import org.fossify.musicplayer.models.sortSafely
 
@@ -95,11 +95,11 @@ class AlbumsFragment(context: Context, attributeSet: AttributeSet) : MyViewPager
     }
 
     override fun onSortOpen(activity: SimpleActivity) {
-        ChangeSortingDialog(activity, TAB_ALBUMS) {
-            val adapter = getAdapter() ?: return@ChangeSortingDialog
-            albums.sortSafely(activity.config.albumSorting)
-            adapter.updateItems(albums, forceUpdate = true)
-        }
+//        ChangeSortingDialog(activity, TAB_ALBUMS) {
+//            val adapter = getAdapter() ?: return@ChangeSortingDialog
+//            albums.sortSafely(activity.config.albumSorting)
+//            adapter.updateItems(albums, forceUpdate = true)
+//        }
     }
 
     override fun setupColors(textColor: Int, adjustedPrimaryColor: Int) {
