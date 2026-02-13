@@ -91,10 +91,10 @@ val tabsList: ArrayList<Int>
     get() = arrayListOf(
         TAB_PLAYLISTS,
         TAB_FOLDERS,
-        TAB_ARTISTS,
-        TAB_ALBUMS,
+//        TAB_ARTISTS,
+//        TAB_ALBUMS,
         TAB_TRACKS,
-        TAB_GENRES
+//        TAB_GENRES
     )
 
 // use custom sorting constants, there are too many app specific ones

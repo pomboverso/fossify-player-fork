@@ -293,9 +293,9 @@ class MainActivity : SimpleMusicActivity() {
         val drawableId = when (position) {
             TAB_PLAYLISTS -> R.drawable.ic_playlist_vector
             TAB_FOLDERS -> R.drawable.ic_folders_vector
-            TAB_ARTISTS -> org.fossify.commons.R.drawable.ic_person_vector
-            TAB_ALBUMS -> R.drawable.ic_album_vector
-            TAB_GENRES -> R.drawable.ic_genre_vector
+//            TAB_ARTISTS -> org.fossify.commons.R.drawable.ic_person_vector
+//            TAB_ALBUMS -> R.drawable.ic_album_vector
+//            TAB_GENRES -> R.drawable.ic_genre_vector
             else -> R.drawable.ic_music_note_vector
         }
 

@@ -33,10 +33,10 @@ private const val STATE_ERROR = 4
 private const val SMP_ROOT_ID = "__ROOT__"
 private const val SMP_PLAYLISTS_ROOT_ID = "__PLAYLISTS__"
 private const val SMP_FOLDERS_ROOT_ID = "__FOLDERS__"
-private const val SMP_ARTISTS_ROOT_ID = "__ARTISTS__"
-private const val SMP_ALBUMS_ROOT_ID = "__ALBUMS__"
+//private const val SMP_ARTISTS_ROOT_ID = "__ARTISTS__"
+//private const val SMP_ALBUMS_ROOT_ID = "__ALBUMS__"
 private const val SMP_TRACKS_ROOT_ID = "__TRACKS__"
-private const val SMP_GENRES_ROOT_ID = "__GENRES__"
+//private const val SMP_GENRES_ROOT_ID = "__GENRES__"
 
 /**
  * This is not (yet) used internally and currently only required (mostly) for media browser's outside the app.
@@ -176,10 +176,10 @@ internal class MediaItemProvider(private val context: Context) {
             try {
                 buildPlaylists()
                 buildFolders()
-                buildArtists()
-                buildAlbums()
+//                buildArtists()
+//                buildAlbums()
                 buildTracks()
-                buildGenres()
+//                buildGenres()
             } catch (e: Exception) {
                 state = STATE_ERROR
             }
@@ -210,17 +210,17 @@ internal class MediaItemProvider(private val context: Context) {
         }
     }
 
-    private fun buildArtists() = with(audioHelper) {
-        getAllArtists().forEach { artist ->
-            addNodeAndChildren(SMP_ARTISTS_ROOT_ID, artist.toMediaItem(), getArtistAlbums(artist.id).map { it.toMediaItem() })
-        }
-    }
-
-    private fun buildAlbums() = with(audioHelper) {
-        getAllAlbums().forEach { album ->
-            addNodeAndChildren(SMP_ALBUMS_ROOT_ID, album.toMediaItem(), getAlbumTracks(album.id).map { it.toMediaItem() })
-        }
-    }
+//    private fun buildArtists() = with(audioHelper) {
+//        getAllArtists().forEach { artist ->
+//            addNodeAndChildren(SMP_ARTISTS_ROOT_ID, artist.toMediaItem(), getArtistAlbums(artist.id).map { it.toMediaItem() })
+//        }
+//    }
+//
+//    private fun buildAlbums() = with(audioHelper) {
+//        getAllAlbums().forEach { album ->
+//            addNodeAndChildren(SMP_ALBUMS_ROOT_ID, album.toMediaItem(), getAlbumTracks(album.id).map { it.toMediaItem() })
+//        }
+//    }
 
     private fun buildTracks() = with(audioHelper) {
         getAllTracks().forEach { track ->
@@ -229,11 +229,11 @@ internal class MediaItemProvider(private val context: Context) {
         }
     }
 
-    private fun buildGenres() = with(audioHelper) {
-        getAllGenres().forEach { genre ->
-            addNodeAndChildren(SMP_GENRES_ROOT_ID, genre.toMediaItem(), getGenreTracks(genre.id).map { it.toMediaItem() })
-        }
-    }
+//    private fun buildGenres() = with(audioHelper) {
+//        getAllGenres().forEach { genre ->
+//            addNodeAndChildren(SMP_GENRES_ROOT_ID, genre.toMediaItem(), getGenreTracks(genre.id).map { it.toMediaItem() })
+//        }
+//    }
 
     private fun getNode(id: String) = treeNodes[id]
 
@@ -257,10 +257,10 @@ internal class MediaItemProvider(private val context: Context) {
 private enum class RootCategories(@StringRes val titleRes: Int, @DrawableRes val drawableRes: Int, val mediaId: String, val mediaType: @MediaType Int) {
     PLAYLISTS(R.string.playlists, R.drawable.ic_playlist_vector, SMP_PLAYLISTS_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS),
     FOLDERS(R.string.folders, R.drawable.ic_folders_vector, SMP_FOLDERS_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS),
-    ARTISTS(R.string.artists, org.fossify.commons.R.drawable.ic_person_vector, SMP_ARTISTS_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_ARTISTS),
-    ALBUMS(R.string.albums, R.drawable.ic_album_vector, SMP_ALBUMS_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_ALBUMS),
-    TRACKS(R.string.tracks, R.drawable.ic_music_note_vector, SMP_TRACKS_ROOT_ID, MediaMetadata.MEDIA_TYPE_PLAYLIST),
-    GENRES(R.string.genres, R.drawable.ic_genre_vector, SMP_GENRES_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_GENRES);
+//    ARTISTS(R.string.artists, org.fossify.commons.R.drawable.ic_person_vector, SMP_ARTISTS_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_ARTISTS),
+//    ALBUMS(R.string.albums, R.drawable.ic_album_vector, SMP_ALBUMS_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_ALBUMS),
+    TRACKS(R.string.tracks, R.drawable.ic_music_note_vector, SMP_TRACKS_ROOT_ID, MediaMetadata.MEDIA_TYPE_PLAYLIST);
+//    GENRES(R.string.genres, R.drawable.ic_genre_vector, SMP_GENRES_ROOT_ID, MediaMetadata.MEDIA_TYPE_FOLDER_GENRES);
 
     companion object {
         fun buildRootChildren(context: Context): List<MediaItem> {
@@ -284,10 +284,10 @@ private enum class RootCategories(@StringRes val titleRes: Int, @DrawableRes val
             return when (mediaId) {
                 SMP_PLAYLISTS_ROOT_ID -> TAB_PLAYLISTS
                 SMP_FOLDERS_ROOT_ID -> TAB_FOLDERS
-                SMP_ARTISTS_ROOT_ID -> TAB_ARTISTS
-                SMP_ALBUMS_ROOT_ID -> TAB_ALBUMS
+//                SMP_ARTISTS_ROOT_ID -> TAB_ARTISTS
+//                SMP_ALBUMS_ROOT_ID -> TAB_ALBUMS
                 SMP_TRACKS_ROOT_ID -> TAB_TRACKS
-                SMP_GENRES_ROOT_ID -> TAB_GENRES
+//                SMP_GENRES_ROOT_ID -> TAB_GENRES
                 else -> throw IllegalArgumentException("Invalid media id: $mediaId")
             }
         }
