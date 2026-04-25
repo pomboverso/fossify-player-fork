@@ -1,4 +1,4 @@
-package com.rama.tambora
+package com.rama.tui
 
 import android.app.Activity
 import android.os.Build
@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import com.rama.txori.managers.FontManager
-import com.rama.txori.utils.dp
+import com.rama.tui.managers.FontManager
+import com.rama.tui.utils.dp
 
 abstract class CsActivity : Activity() {
 

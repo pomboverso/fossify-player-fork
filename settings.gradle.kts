@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Tambora"
+rootProject.name = "Tui"
 include(":app")
  

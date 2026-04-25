@@ -8,11 +8,11 @@ plugins {
 val currentYear = LocalDate.now().year
 
 android {
-    namespace = "com.rama.tambora"
+    namespace = "com.rama.tui"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.rama.tambora"
+        applicationId = "com.rama.tui"
         minSdk = 21
         targetSdk = 36
         versionCode = 1
@@ -27,7 +27,7 @@ android {
     applicationVariants.all {
         outputs.all {
             (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
-                .outputFileName = "tambora_${versionName}.apk"
+                .outputFileName = "tui_${versionName}.apk"
         }
     }
 

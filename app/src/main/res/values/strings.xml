@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Tambora</string>
+    <string name="app_name">Tui</string>
     <string name="app_description">A lightweight, distraction-free Android launcher that’s privacy-first and entirely on-device, designed for focus and simplicity.</string>
     <string name="icon_block_desc">No Background Tasks</string>
     <string name="icon_ads_desc">No Ads</string>
     <string name="icon_location_desc">No Trackers</string>
     <string name="icon_offline_desc">Works Offline</string>
     <string name="icon_license_desc">License GPLv3</string>
-    <string name="app_repo">github.com/jmiguelrivas/tambora</string>
+    <string name="app_repo">github.com/jmiguelrivas/tui</string>
     <string name="app_creator">Miguel Rivas</string>
     <string name="author_app_creator">Author: Miguel Rivas</string>
     <string name="close">Close</string>

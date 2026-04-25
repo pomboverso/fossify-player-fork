@@ -1,4 +1,4 @@
-package com.rama.tambora
+package com.rama.tui
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.ext.junit.rules.ActivityScenarioRule

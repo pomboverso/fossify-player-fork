@@ -1,4 +1,4 @@
-package com.rama.tambora
+package com.rama.tui
 
 import android.content.ContentUris
 import android.content.Context

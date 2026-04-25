@@ -1,11 +1,11 @@
-package com.rama.txori.widgets
+package com.rama.tui.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.FrameLayout
-import com.rama.txori.R
+import com.rama.tui.R
 
 class WdCheckbox @JvmOverloads constructor(
     context: Context,

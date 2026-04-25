@@ -1,4 +1,4 @@
-package com.rama.txori.managers
+package com.rama.tui.managers
 
 import android.media.AudioManager
 import android.media.ToneGenerator

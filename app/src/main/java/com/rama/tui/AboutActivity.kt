@@ -1,4 +1,4 @@
-package com.rama.tambora
+package com.rama.tui
 
 import android.app.Activity
 import android.os.Bundle
@@ -30,7 +30,7 @@ class AboutActivity : Activity() {
         repoButton.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/jmiguelrivas/tambora")
+                Uri.parse("https://github.com/jmiguelrivas/tui")
             )
             startActivity(intent)
         }

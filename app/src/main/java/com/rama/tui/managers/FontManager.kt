@@ -1,4 +1,4 @@
-package com.rama.txori.managers
+package com.rama.tui.managers
 
 import android.content.Context
 import android.graphics.Typeface
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import com.rama.txori.R
+import com.rama.tui.R
 
 object FontManager {
 
