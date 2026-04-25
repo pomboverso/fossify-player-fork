@@ -1,7 +1,11 @@
+import java.time.LocalDate
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
+
+val currentYear = LocalDate.now().year
 
 android {
     namespace = "com.rama.tambora"
@@ -9,12 +13,10 @@ android {
 
     defaultConfig {
         applicationId = "com.rama.tambora"
-        minSdk = 26
+        minSdk = 21
         targetSdk = 36
         versionCode = 1
-        versionName = "2026.01.02"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionName = "$currentYear.$versionCode"
     }
 
     dependenciesInfo {
@@ -22,39 +24,54 @@ android {
         includeInBundle = false
     }
 
-    buildTypes {
-        debug {
-            // Prevent override of production
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-dev"
-
-            isDebuggable = true
-            isMinifyEnabled = false
+    applicationVariants.all {
+        outputs.all {
+            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
+                .outputFileName = "tambora_${versionName}.apk"
         }
+    }
 
+    buildTypes {
         release {
             isMinifyEnabled = false
-            isDebuggable = false
+            vcsInfo.include = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-dev"
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
+    }
+
+    androidResources {
+        generateLocaleConfig = true
+    }
+
+    packaging {
+        resources {
+            excludes += "META-INF/*.version"
+            excludes += "META-INF/com/android/build/gradle/app-metadata.properties"
+        }
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-
-    // Local unit tests
-    testImplementation("junit:junit:4.13.2")
-
-    // Instrumentation tests
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

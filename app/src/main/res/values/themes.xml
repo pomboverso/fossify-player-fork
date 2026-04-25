@@ -3,10 +3,11 @@
     <style name="Theme.Tambora" parent="android:Theme.DeviceDefault">
         <item name="bgColor">@color/bg_color</item>
         <item name="foregroundColor">@color/foreground_color</item>
+        <item name="android:windowNoTitle">true</item>
 
         <item name="android:windowBackground">?attr/bgColor</item>
         <item name="android:textColor">?attr/foregroundColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
     </style>
 </resources>
